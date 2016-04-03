@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { MainLayout } from '/imports/ui/layouts';
+import MainLayout from '/imports/ui/layout';
 import moment from 'moment-timezone';
 
 if (Meteor.isServer) {
