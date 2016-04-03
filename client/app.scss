@@ -1,0 +1,376 @@
+$color-card: #424242;
+$color-background: #303030;
+$color-appbar: #35585b;
+$color-subheading: rgba(255, 255, 255, 0.87);
+$color-body: rgba(255, 255, 255, 0.87);
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  font-size: 1em;
+  color: $color-body;
+  min-height: 100%;
+  justify-content: center;
+  align-items: stretch;
+  align-content: flex-start;
+  width: 100%;
+}
+
+#react-root {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+// This data attribute is removed when javascript(react) kicks in
+// Until that happens we can use it to hide interaction options that we rely on javascript to handle.
+/*
+[data-react-checksum] [class*="js-"] {
+  display: none !important;
+}
+*/
+
+.c-mainlayout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+
+  .c-header {
+    color: white;
+    display: flex;
+    padding: 0.5rem 1rem;
+    min-height: 64px;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row wrap;
+    z-index: 1;
+    width: 100%;
+    background: $color-appbar;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+
+    .c-masthead {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-flow: row;
+
+      &-homelink {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: .75rem;
+
+        img {
+          width: 24px;
+          height: auto;
+        }
+      }
+
+      h1 {
+        margin: 0 .75rem;
+        font-size: 1.125em;
+        font-weight: 400;
+        text-align: left;
+        white-space: nowrap;
+
+        > div {
+          &:first-child {
+            font-weight: bolder;
+          }
+
+          &:last-child {
+            font-weight: lighter;
+          }
+        }
+      }
+    }
+
+    .at-form {
+      padding: 0 .75rem;
+      display: flex;
+
+      .at-title {
+        display: none;
+      }
+
+      .at-social-btn#at-google {
+        font-size: 0rem;
+        display: inline-block;
+        min-height: 36px;
+        padding: 0 1rem;
+        cursor: pointer;
+        text-decoration: none;
+        border: none;
+        border-radius: 2px;
+        outline: 0;
+        background: white;
+        transition: all .3s ease-in-out;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+
+        &:hover {
+          box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+        }
+
+        .fa.fa-google {
+          font-size: .875rem;
+          color: #4285f4;
+          padding-right: .5rem;
+        }
+
+        &::after {
+          font: inherit;
+          font-size: .875rem;
+          content: 'Sign In';
+          letter-spacing: 0.01em;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+          font-weight: 700;
+          color: rgba(0, 0, 0, 0.87);
+          text-transform: uppercase;
+        }
+      }
+
+      .at-error {
+        line-height: normal;
+        text-align: center;
+        color: #ff6e6e;
+        order: -1;
+        padding: 0.5rem 1rem;
+      }
+    }
+
+    .c-currentaccount {
+      display: flex;
+      align-items: stretch;
+
+      &-profileinfo {
+        display: flex;
+        padding: 0 .5rem;
+        flex-flow: column;
+        justify-content: center;
+        align-items: flex-end;
+
+        &-name,
+        &-signout {
+          display: flex;
+          align-items: center;
+        }
+
+        &-name {
+          font-weight: 600;
+        }
+
+        &-signout {
+          font-weight: normal;
+          color: #14BECC;
+          -webkit-tap-highlight-color: transparent;
+          text-transform: uppercase;
+          text-decoration: none;
+          font-size: 15px;
+          line-height: 1.3em;
+
+          i.fa-sign-out {
+            font-size: 1.3em;
+            margin-left: 4px;
+          }
+        }
+      }
+
+      &-profilepicture {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  main {
+    width: 100%;
+    background: $color-background;
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+
+    //    align-items: stretch;
+ 
+  }
+}
+
+.c-kitchenweeks {
+  flex: 1;
+  max-width: 800px;
+
+  &-week {
+    margin-left: auto;
+    margin-right: auto;
+    background: $color-card;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+
+    &:nth-child(3) {
+      @media (min-width: 800px) {
+        border-radius: 0;
+        border-top-right-radius: 2px;
+        border-top-left-radius: 2px;
+      }
+    }
+
+    &:last-child {
+      @media (min-width: 800px) {
+        border-radius: 0;
+        border-top-right-radius: 2px;
+        border-top-left-radius: 2px;
+      }
+    }
+
+    &.is-current {
+      margin-top: 1%;
+      margin-bottom: 1%;
+
+      @media (min-width: 800px) {
+        border-radius: 2px;
+      }
+    }
+
+    &.is-next {
+      margin-top: 1%;
+      margin-bottom: 1%;
+
+      @media (min-width: 800px) {
+        border-radius: 2px;
+      }
+    }
+
+    h2 {
+      font-size: .875rem;
+      font-weight: 700;
+      min-height: 48px;
+      padding: 0 16px;
+      display: flex;
+      color: $color-subheading;
+      align-items: center;
+      letter-spacing: 0.01em;
+      margin-bottom: -2px;
+      margin-top: -2px;
+    }
+  }
+}
+
+.c-kitchenteam {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  margin-right: -1px;
+  margin-top: -1px;
+
+  &-filler,
+  &-member {
+    flex: 1 0 160px;
+    max-width: calc( 100% / 3 );
+
+    @media (min-width: 800px) {
+      max-width: calc( 100% / 3 );
+    }
+  }
+
+  &-filler {
+    max-width: none;
+  }
+
+  &.is-current {
+    .c-kitchenteam-member {}
+  }
+
+  &-member {
+    padding-top: 1px;
+    padding-right: 1px;
+    position: relative;
+
+    &-picture {
+      padding-top: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    &-name {
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      right: 1px;
+      min-height: 48px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 1);
+      color: rgb(238, 238, 238);
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAADGCAYAAAAT+OqFAAAAdklEQVQoz42QQQ7AIAgEF/T/D+kbq/RWAlnQyyazA4aoAB4FsBSA/bFjuF1EOL7VbrIrBuusmrt4ZZORfb6ehbWdnRHEIiITaEUKa5EJqUakRSaEYBJSCY2dEstQY7AuxahwXFrvZmWl2rh4JZ07z9dLtesfNj5q0FU3A5ObbwAAAABJRU5ErkJggg==);
+      background-repeat: repeat-x;
+      background-size: auto 200%;
+      background-position: bottom;
+      text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+
+      .is-currentuser & {
+        font-weight: 700;
+      }
+    }
+  }
+
+  &.is-next {}
+}
+
+footer {
+  background: black;
+}
+
+.c-kitchenteamrater {
+  font-size: .875rem;
+  font-weight: 700;
+  min-height: 48px;
+  padding: 0 16px;
+  display: flex;
+  color: $color-subheading;
+  align-items: center;
+  letter-spacing: 0.01em;
+  margin-bottom: -4px;
+  margin-top: 0px;
+  float: right;
+
+  &-form {
+    input {
+      display: none;
+    }
+
+    .fa-smile-o, .fa-meh-o, .fa-frown-o {
+      font-size: 2em;
+      cursor: pointer;
+      margin-left: 8px;
+      transform: scale(1);
+      transition: all 150ms ease-in-out;
+    }
+
+    input:checked + .fa-smile-o,
+    input:checked + .fa-meh-o,
+    input:checked + .fa-frown-o {
+      transform: scale(1.5);
+    }
+
+    input:checked + .fa-smile-o {
+      color: green;
+    }
+
+    input:checked + .fa-meh-o {
+      color: yellow;
+    }
+
+    input:checked + .fa-frown-o {
+      color: red;
+    }
+  }
+}
