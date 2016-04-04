@@ -7,7 +7,6 @@ import React from 'react';
 import { WeekToKitchenTeam } from '/lib/functions.js';
 import { Teams } from '/imports/api/teams/teams.js';
 import { TeamMembers } from '/imports/api/teammembers/teammembers.js';
-import { rate as rateTeam } from '/imports/api/teams/methods.js';
 
 ns = function(o, suffixes, prefix = 'c') {
   if(typeof suffixes == "String")
@@ -93,6 +92,10 @@ export const KitchenWeeks = React.createClass({
     );
   }
 });
+
+
+import { KitchenTeamRater } from '/imports/ui/components/kitchenteamrater';
+
 export const KitchenWeek = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData() {
@@ -107,7 +110,7 @@ export const KitchenWeek = React.createClass({
     isNext = this.props.isNext;
     return (
       <li className={this.props.className+(isCurrent?' is-current':'')+(isNext?' is-next':'')}>
-        {(isCurrent&&this.data.currentUser&&!team.isMyTeam()?(<KitchenTeamRater team={this.data.team}/>):null)}
+        {(isCurrent&&this.data.currentUser?(<KitchenTeamRater team={this.data.team}/>):null)}
         {(isCurrent?(<h2>This Week</h2>):isNext?(<h2>Next Week</h2>):(<h2>Week&nbsp;<b>{moment(this.props.week).isoWeek()}</b>{!moment().isoWeekday(1).startOf('day').isSame(moment(this.props.week),'year')?', '+(moment(this.props.week).year()):null}</h2>))}
         <KitchenTeam 
           className={c({'is-current':isCurrent,'is-next':isNext})}
@@ -171,46 +174,3 @@ export const KitchenTeamMember = (props)=>{
     </li>
   );
 };
-
-export const KitchenTeamRater = React.createClass({
-  mixins: [ReactMeteorData],
-  getMeteorData() {
-    var data = {};
-    if(this.props.team && '_id' in this.props.team && this.props.team._id)
-      data.myRating = Teams._transform(Teams.findOne(this.props.team._id)).getMyRating();
-    return data;
-  },
-  handleRate(e) {
-    rating = e.target.value;
-    rateTeam.call({
-      teamId: this.props.team._id, 
-      rating: rating
-    }, function(error,result){
-      if(error){
-        console.error(error);
-        toastr.error(error.reason)
-        return;
-      }
-    });
-  },
-  render() {
-    return (
-      <div className={ns(this)+' '+ns(this,[],'js')}>
-        <form className={ns(this,['form'])}>
-          <label>
-            <input type="radio" name="rating" value="+1" onChange={this.handleRate} checked={this.data.myRating=="+1"}/>
-            <i className="fa fa-smile-o" title="Good."></i>
-          </label>
-          <label>
-            <input type="radio" name="rating" value="0" onChange={this.handleRate} checked={this.data.myRating=="0"}/>
-            <i className="fa fa-meh-o" title="Meh."></i>
-          </label>
-          <label>
-            <input type="radio" name="rating" value="-1" onChange={this.handleRate} checked={this.data.myRating=="-1"}/>
-            <i className="fa fa-frown-o" title="Poor."></i>
-          </label>
-        </form>
-      </div>
-    );
-  }
-});

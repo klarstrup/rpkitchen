@@ -1,8 +1,4 @@
-$color-card: #424242;
-$color-background: #303030;
-$color-appbar: #35585b;
-$color-subheading: rgba(255, 255, 255, 0.87);
-$color-body: rgba(255, 255, 255, 0.87);
+@import "{}/client/settings.scss";
 
 html {
   height: 100%;
@@ -19,6 +15,10 @@ body {
   align-items: stretch;
   align-content: flex-start;
   width: 100%;
+}
+
+a {
+  color: #14BECC;
 }
 
 #react-root {
@@ -329,48 +329,12 @@ footer {
   background: black;
 }
 
-.c-kitchenteamrater {
-  font-size: .875rem;
-  font-weight: 700;
-  min-height: 48px;
-  padding: 0 16px;
-  display: flex;
-  color: $color-subheading;
-  align-items: center;
-  letter-spacing: 0.01em;
-  margin-bottom: -4px;
-  margin-top: 0px;
-  float: right;
+@import "{}/imports/ui/components/kitchenteamrater.scss";
 
-  &-form {
-    input {
-      display: none;
-    }
-
-    .fa-smile-o, .fa-meh-o, .fa-frown-o {
-      font-size: 2em;
-      cursor: pointer;
-      margin-left: 8px;
-      transform: scale(1);
-      transition: all 150ms ease-in-out;
-    }
-
-    input:checked + .fa-smile-o,
-    input:checked + .fa-meh-o,
-    input:checked + .fa-frown-o {
-      transform: scale(1.5);
-    }
-
-    input:checked + .fa-smile-o {
-      color: green;
-    }
-
-    input:checked + .fa-meh-o {
-      color: yellow;
-    }
-
-    input:checked + .fa-frown-o {
-      color: red;
-    }
+.md-snackbar {
+  .md-snackbar__inner {
+    font-family: inherit;
+    background: white;
+    color: rgba(0, 0, 0, 0.87);
   }
 }

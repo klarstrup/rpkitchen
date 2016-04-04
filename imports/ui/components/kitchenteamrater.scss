@@ -1,0 +1,49 @@
+@import "{}/client/settings.scss";
+
+.c-kitchenteamrater {
+  font-size: .875rem;
+  font-weight: 700;
+  min-height: 48px;
+  padding: 0 16px;
+  display: flex;
+  color: #14BECC;
+  align-items: center;
+  letter-spacing: 0.01em;
+  margin-bottom: -4px;
+  margin-top: 0px;
+  float: right;
+
+  &-form {
+    input {
+      display: none;
+    }
+
+    .fa-smile-o, .fa-meh-o, .fa-frown-o {
+      font-size: 2em;
+      cursor: pointer;
+      margin-left: 8px;
+      transform: scale(1);
+      transition: all 200ms ease-in-out;
+    }
+
+    input:checked + .fa-smile-o,
+    input:checked + .fa-meh-o,
+    input:checked + .fa-frown-o {
+      transform: scale(1.5);
+      margin-left: 12px;
+      margin-right: 4px;
+    }
+
+    input:checked + .fa-smile-o {
+      color: #66ff00;
+    }
+
+    input:checked + .fa-meh-o {
+      color: yellow;
+    }
+
+    input:checked + .fa-frown-o {
+      color: red;
+    }
+  }
+}

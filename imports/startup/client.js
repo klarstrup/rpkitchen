@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import MainLayout from '/imports/ui/layout';
 import moment from 'moment-timezone';
+
+import MainLayout from '/imports/ui/layout';
 
 if (Meteor.isServer) {
   var timeInMillis = 1000 * 10; // 10 secs
@@ -12,6 +13,8 @@ if (Meteor.isServer) {
 moment.tz.setDefault("Europe/Copenhagen");
 
 SubsManager = new SubsManager();
+
+
 
 AccountsTemplates.configure({
   hideSignUpLink: true,
