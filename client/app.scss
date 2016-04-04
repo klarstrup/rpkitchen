@@ -15,6 +15,8 @@ body {
   align-items: stretch;
   align-content: flex-start;
   width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 a {
@@ -329,9 +331,13 @@ footer {
   background: black;
 }
 
-@import "{}/imports/ui/components/kitchenteamrater.scss";
-
 .md-snackbar {
+  @media (min-width: 800px) {
+    min-width: 288px;
+    max-width: 568px;
+    margin: 0 auto;
+  }
+
   .md-snackbar__inner {
     font-family: inherit;
     background: white;

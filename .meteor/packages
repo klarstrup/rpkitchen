@@ -14,7 +14,6 @@ tracker                 # Meteor's client-side reactive programming library
 
 standard-minifier-js    # JS minifier run for production mode
 es5-shim                # ECMAScript 5 compatibility for older browsers.
-ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 kadira:flow-router-ssr
 kadira:react-layout
@@ -25,7 +24,6 @@ mdg:validated-method
 aldeed:simple-schema
 fourseven:scss
 juliancwirko:postcss
-pcel:toastr
 matteodem:server-session
 meteorhacks:subs-manager
 blaze
@@ -35,3 +33,6 @@ accounts-google
 useraccounts:unstyled
 fortawesome:fontawesome
 255kb:md-snackbars
+ecmascript
+practicalmeteor:mocha
+dispatch:mocha-phantomjs
