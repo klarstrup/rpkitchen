@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import moment from 'moment-timezone';
+import {mount} from 'react-mounter';
+
 
 import MainLayout from '/imports/ui/layout';
 
@@ -33,7 +35,7 @@ AccountsTemplates.configure({
 
 FlowRouter.route('/', {
   action() {
-    ReactLayout.render(MainLayout, { content: (null) });
+    mount(MainLayout, { content: (null) });
     if (Meteor.isClient) {
       $('.c-mainlayout').data('react-checksum', null);
     }

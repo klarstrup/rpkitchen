@@ -4,10 +4,6 @@ import React from 'react';
 import { Teams } from '/imports/api/teams/teams.js';
 import { rate as rateTeam } from '/imports/api/teams/methods.js';
 
-//import * as styles from "./kitchenteamrater.scss";
-
-//styles = CssModules.import("./kitchenteamrater.scss")
-
 export const KitchenTeamRater = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData() {

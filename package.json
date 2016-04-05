@@ -34,7 +34,9 @@
     "react-addons-test-utils": "^0.14.8",
     "react-addons-transition-group": "^0.14.8",
     "react-addons-update": "^0.14.8",
+    "react-css-modules": "^3.7.6",
     "react-dom": "^0.14.8",
+    "react-mounter": "^1.1.0",
     "react-toolbox": "^0.15.0"
   },
   "scripts": {
