@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-//import { Session } from 'meteor/session';
 import { ServerSession } from 'meteor/matteodem:server-session';
+import { FlowRouter } from 'meteor/kadira:flow-router-ssr';
 import React from 'react';
 import c from 'classnames';
 import Blaze from 'meteor/gadicc:blaze-react-component';
@@ -11,6 +11,7 @@ import MediaQuery from 'react-responsive';
 
 import { VelocityComponent, VelocityTransitionGroup } from 'velocity-react';
 
+import BottomNavigation from '/imports/ui/components/bottomnavigation';
 import { KitchenWeeks, CurrentAccount } from '/imports/ui/components/kitchen';
 import { KitchenTeamLeaderboard, KitchenerLeaderboard } from '/imports/ui/components/kitchenscoreboards';
 
@@ -56,7 +57,7 @@ export default MainLayout = applyContainerQuery(React.createClass({
   },
   render() {
   	return (
-  		<div className={c(ns(this),this.props.containerQuery)}>
+  		<div className={c(ns(this),this.props.containerQuery,'r-'+FlowRouter.current().route.name,{'is-ready':Meteor.isClient})}>
         <header className="c-header">
           <div className="c-masthead">
             <a href="http://rebelpenguin.dk/" className="c-masthead-homelink"><img src="/images/rp-logo.png"/></a>
@@ -64,47 +65,15 @@ export default MainLayout = applyContainerQuery(React.createClass({
           </div>
           {this.data.currentUser ?(<CurrentAccount />):(Meteor.isClient?(<Blaze template="atForm" />):null)}
         </header>
-          <VelocityTransitionGroup component="main"
-            enter={{animation: 'fadeIn', duration: 500, style: {height: ''}}}
-            leave={{animation: 'fadeOut', duration: 500}}>
+        <main>
           <KitchenWeeks key="KitchenWeeks"/>
-          {true?(<MediaQuery minWidth={1440} component="aside" values={{width: 1600}}>
+          <aside>
             <KitchenTeamLeaderboard key="KitchenTeamLeaderboard"/>
             <KitchenerLeaderboard key="KitchenTeamRankings"/>
-          </MediaQuery>):null}
-        </VelocityTransitionGroup>
-      {true?(<BottomNavigation/>):null}
+          </aside>
+        </main>
+        <BottomNavigation/>
       </div>
 		)
   }
 }), mdBreakpoints);
-
-export const BottomNavigation = React.createClass({
-  render() {
-    return (
-      <nav className={c(ns(this))}>
-        <ul>
-          <li className="is-active">
-            <a href="#schedule">
-              <i className="fa fa-calendar"></i>
-              <span className={c(ns(this,'label'))}>Schedule</span>
-            </a>
-          </li>
-          <li>
-            <a href="#kitcheners">
-              <i className="fa fa-user"></i>
-              <span className={c(ns(this,'label'))}>Kitcheners</span>
-            </a>
-          </li>
-          <li>
-            <a href="#teams">
-              <i className="fa fa-users"></i>
-              <span className={c(ns(this,'label'))}>Teams</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    )
-  }
-});
-

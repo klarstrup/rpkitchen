@@ -37,3 +37,4 @@ practicalmeteor:mocha
 dispatch:mocha-phantomjs
 meteorhacks:kadira
 session
+okgrow:router-autoscroll

@@ -5,7 +5,7 @@ import c from 'classnames';
 import React from 'react';
 import * as ReactDOM from 'react-dom';
 import { rank as rankTeam } from '/imports/api/teams/methods.js';
-
+import { FlowRouter } from 'meteor/kadira:flow-router-ssr';
 
 // Ugly non-ES6 import because dragula wants to touch the document global on import for no good reason.
 if(Meteor.isClient)
@@ -64,7 +64,7 @@ export const KitchenWeeks = React.createClass({
       $(window).scroll(this.onScroll)
   },
   onScroll() {
-    if ($(window).scrollTop() + $(window).height() == $(document).height())
+    if ($(window).scrollTop() + $(window).height() == $(document).height() && FlowRouter.current().route.name == "schedule")
       this.setState({weekMax: this.state.weekMax + 8})
   },
   getMeteorData() {
@@ -134,8 +134,6 @@ export const KitchenTeam = React.createClass({
 //    data.currentUser = Meteor.user();
     let transformedTeam = Teams._transform(this.props.team);
     data.teammembers = transformedTeam.getMembers().fetch();
-    if(transformedTeam.isCurrent())
-      console.log('getMeteorData');
 
 /*
     data.teammembers = _.sortBy(data.teammembers,(member)=>{
@@ -162,12 +160,12 @@ export const KitchenTeam = React.createClass({
     });
     
     return sortedTeammembers.map((member) => {
-      return <KitchenTeamMember classNames={[ns(this,['Member']),(Meteor.user() && Meteor.user()._id == member.userId ?' is-currentuser':'')]} key={member._id} member={member} />;
+      return <KitchenTeamMember classNames={[ns(this,['Member']),c({'is-currentuser':Meteor.user() && Meteor.user()._id == member.userId})]} key={member._id} member={member} />;
     });
   },
   render() {
     return (
-      <ol className={this.props.className+' '+ns(this)}>
+      <ol className={c(this.props.className,ns(this),{'is-ready':Meteor.isClient})}>
         {this.renderTeamMembers()}
         <li className={ns(this,['Filler'])}></li>
         <li className={ns(this,['Filler'])}></li>

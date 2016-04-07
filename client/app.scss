@@ -17,6 +17,7 @@ body {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+    background: $color-background;
 }
 
 a {
@@ -53,7 +54,7 @@ a {
     justify-content: space-between;
     align-items: center;
     flex-flow: row wrap;
-    z-index: 1;
+    z-index: 20;
     width: 100%;
     background: $color-appbar;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
@@ -200,19 +201,77 @@ a {
 
   main {
     width: 100%;
-    background: $color-background;
     flex: 1;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
 
     //align-items: stretch;
  
+  }
+  @media (max-width: 1279px){
+    main {
+      position: relative;
+      > .c-kitchenweeks,
+      > aside > .c-kitchenteamleaderboard,
+      > aside > .c-kitchenerleaderboard {
+        opacity: 0;
+        position: absolute;
+        top: 8px;
+//        left: 50%;
+//        transform: translateX(-50%);
+        left:0;
+        right: 0;
+        z-index: 0;
+        overflow: hidden;
+        max-height: calc(100vh - 64px);
+        transition: all 200ms ease-in-out;
+    margin: 0 auto;
+  pointer-events: none;
+        max-width: 800px;
+        width: 100%;
+      }
+      > aside {
+        position: absolute;
+        top: 0;
+        left:0;
+        right: 0;
+//        left: 50%;
+      }
+    }
+    &.r-schedule {
+      > main > .c-kitchenweeks {
+        opacity: 1;
+        z-index: 1;
+        overflow: visible;
+        max-height: none;
+        pointer-events: auto;
+      }
+    }
+    &.r-teams {
+      > main > aside > .c-kitchenteamleaderboard {
+        opacity: 1;
+        z-index: 1;
+        overflow: visible;
+        max-height: none;
+        pointer-events: auto;
+      }
+    }
+    &.r-kitcheners {
+      > main > aside > .c-kitchenerleaderboard {
+        opacity: 1;
+        z-index: 1;
+        overflow: visible;
+        max-height: none;
+        pointer-events: auto;
+      }
+    }
   }
 }
 
 .c-kitchenweeks {
   flex: 1;
   max-width: 800px;
+  width: 100%;
 
   &-week {
     margin-left: auto;
@@ -237,7 +296,6 @@ a {
     }
 
     &.is-current {
-      margin-top: 1%;
       margin-bottom: 1%;
 
       @media (min-width: 800px) {
@@ -291,26 +349,16 @@ a {
     max-width: none;
   }
 
-  &.is-current {
-    .c-kitchenteam-member {}
-  }
 
   &-member {
     padding-top: 1px;
     padding-right: 1px;
     position: relative;
-    transition: all 200ms ease-in-out;
+    transition: all 100ms ease-out;
 
     .gu-unselectable > & {
       box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
       transform: scale(0.9);
-    }
-
-    &:hover {
-      font-weight: 500;
-      transform: scale(1.1);
-      z-index: 2;    
-      box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     }
 
     &-picture {
@@ -344,38 +392,51 @@ a {
         font-weight: 700;
       }
     }
-    &::before {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%,-50%);
-      content: counter(member-rank);
-      counter-increment: member-rank;
-      font-size: 6em;
-      z-index: 0;
-      opacity: 0;
-    }
-    &::after {
-      content: '';
-      padding-top: 100%;
-      display: none;
-    }
-    &.gu-transit {
-      opacity: 1;
-      > * {
-        display: none;
+  }
+  &.is-current {
+    .c-kitchenteam-member {
+      &:hover {
+        cursor: pointer;
+        font-weight: 500;
+        transform: scale(1.1);
+        z-index: 2;
+        transition: all 200ms ease-in;
+        box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
       }
       &::before {
-        opacity: 1;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        content: counter(member-rank);
+        counter-increment: member-rank;
+        font-size: 6em;
+        z-index: 0;
+        opacity: 0;
       }
       &::after {
-        display: block;
+        content: '';
+        padding-top: 100%;
+        display: none;
       }
-    }
-    &.gu-mirror {
-      transform: scale(1);
-      .c-kitchenteam-member-name {
-        font-size: 1.1em;
+      &.gu-transit {
+        opacity: 1;
+        > * {
+          display: none;
+        }
+        &::before {
+          opacity: 1;
+        }
+        &::after {
+          display: block;
+        }
+      }
+      &.gu-mirror {
+        cursor: pointer;
+        transform: scale(1);
+        .c-kitchenteam-member-name {
+          font-size: 1.1em;
+        }
       }
     }
   }
@@ -386,7 +447,7 @@ a {
 .gu-mirror {
   position: fixed !important;
   margin: 0 !important;
-  z-index: 9999 !important;
+  z-index: 10 !important;
 }
 
 .gu-hide {
@@ -414,9 +475,13 @@ footer {
 
   .md-snackbar__inner {
     font-family: inherit;
-    background: white;
-    color: rgba(0, 0, 0, 0.87);
+//    background: white;
+//    color: rgba(0, 0, 0, 0.87);
   }
 }
 
+
+
+@import "{}/imports/ui/components/bottomnavigation.scss";
 @import "{}/imports/ui/components/kitchenteamrater.scss";
+@import "{}/imports/ui/components/kitchenscoreboards.scss";

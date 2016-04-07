@@ -47,7 +47,8 @@
   },
   "scripts": {
     "test": "meteor test --once --driver-package dispatch:mocha-phantomjs --port 3333",
-    "start": "ROOT_URL=http://dev.kitchen.klarstrup.dk MONGO_URL=mongodb://localhost:27017/rpkitchen meteor --port 3002 --settings settings.json"
+    "start": "ROOT_URL=http://dev.kitchen.klarstrup.dk MONGO_URL=mongodb://localhost:27017/rpkitchen meteor --port 3002 --settings settings.json",
+    "start-production": "ROOT_URL=http://dev.kitchen.klarstrup.dk MONGO_URL=mongodb://localhost:27017/rpkitchen meteor --port 3002 --settings settings.json --production"
   },
   "author": "",
   "license": "ISC",

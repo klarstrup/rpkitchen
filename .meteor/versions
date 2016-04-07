@@ -80,6 +80,7 @@ npm-mongo@1.4.42
 oauth@1.1.9
 oauth2@1.1.8
 observe-sequence@1.0.10
+okgrow:router-autoscroll@0.1.8
 ordered-dict@1.0.6
 practicalmeteor:chai@2.1.0_1
 practicalmeteor:loglevel@1.2.0_2

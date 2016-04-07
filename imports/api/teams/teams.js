@@ -31,7 +31,6 @@ Teams.helpers({
 	  		ratings.push(user.ratings[member._id]);
 	  	})
   	});
-    console.log(ratings);
 
   	let rating = _.reduce(ratings, function(memo, num){ return memo + parseInt(num); }, 0);
     /*
@@ -39,7 +38,6 @@ Teams.helpers({
         return memo + parseInt(num);
     }, 0) / (ratings.length === 0 ? 1 : ratings.length);
     */
-    console.log(rating);
   	Teams.update(this._id,{$set:{'rating':rating}});
   },
   getMyRating: function () { 	
