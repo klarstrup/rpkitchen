@@ -193,6 +193,11 @@ a {
     }
   }
 
+  &.min600 .c-header {
+    color: purple;
+    background: yellow;
+  }
+
   main {
     width: 100%;
     background: $color-background;
@@ -200,7 +205,7 @@ a {
     display: flex;
     justify-content: space-around;
 
-    //    align-items: stretch;
+    //align-items: stretch;
  
   }
 }
@@ -270,6 +275,7 @@ a {
   justify-content: flex-start;
   margin-right: -1px;
   margin-top: -1px;
+  counter-reset: member-rank;
 
   &-filler,
   &-member {
@@ -293,19 +299,35 @@ a {
     padding-top: 1px;
     padding-right: 1px;
     position: relative;
+    transition: all 200ms ease-in-out;
+
+    .gu-unselectable > & {
+      box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+      transform: scale(0.9);
+    }
+
+    &:hover {
+      font-weight: 500;
+      transform: scale(1.1);
+      z-index: 2;    
+      box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    }
 
     &-picture {
       padding-top: 100%;
       background-size: cover;
       background-position: center;
+      z-index: 1;
     }
 
     &-name {
+      z-index: 1;
       position: absolute;
       bottom: 0px;
       left: 0px;
       right: 1px;
       min-height: 48px;
+      line-height: 48px;
       padding: 0 16px;
       display: flex;
       align-items: center;
@@ -322,9 +344,61 @@ a {
         font-weight: 700;
       }
     }
+    &::before {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      content: counter(member-rank);
+      counter-increment: member-rank;
+      font-size: 6em;
+      z-index: 0;
+      opacity: 0;
+    }
+    &::after {
+      content: '';
+      padding-top: 100%;
+      display: none;
+    }
+    &.gu-transit {
+      opacity: 1;
+      > * {
+        display: none;
+      }
+      &::before {
+        opacity: 1;
+      }
+      &::after {
+        display: block;
+      }
+    }
+    &.gu-mirror {
+      transform: scale(1);
+      .c-kitchenteam-member-name {
+        font-size: 1.1em;
+      }
+    }
   }
 
   &.is-next {}
+}
+
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+}
+
+.gu-hide {
+  display: none !important;
+}
+
+.gu-unselectable {
+  user-select: none !important;
+}
+
+.gu-transit {
+  opacity: .2;
 }
 
 footer {

@@ -21,7 +21,7 @@ export const KitchenTeamRater = React.createClass({
       if(error){
         console.error(error);
         MDSnackbars.show({
-          text: error.reason,
+          text: error.reason ? error.reason : error.message,
           fullWidth: true,
           animation: 'slideup'
         })

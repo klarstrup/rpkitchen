@@ -1,8 +1,15 @@
 import { Meteor } from 'meteor/meteor';
+import { $ } from 'meteor/jquery';
 import moment from 'moment-timezone';
 import c from 'classnames';
 import React from 'react';
+import * as ReactDOM from 'react-dom';
+import { rank as rankTeam } from '/imports/api/teams/methods.js';
 
+
+// Ugly non-ES6 import because dragula wants to touch the document global on import for no good reason.
+if(Meteor.isClient)
+  dragula = require('react-dragula');
 
 import { WeekToKitchenTeam } from '/lib/functions.js';
 import { Teams } from '/imports/api/teams/teams.js';
@@ -110,7 +117,7 @@ export const KitchenWeek = React.createClass({
     isNext = this.props.isNext;
     return (
       <li className={this.props.className+(isCurrent?' is-current':'')+(isNext?' is-next':'')}>
-        {(isCurrent&&this.data.currentUser?(<KitchenTeamRater team={this.data.team}/>):null)}
+        {(isCurrent&&this.data.currentUser&&!team.isMyTeam()?(<KitchenTeamRater team={this.data.team}/>):null)}
         {(isCurrent?(<h2>This Week</h2>):isNext?(<h2>Next Week</h2>):(<h2>Week&nbsp;<b>{moment(this.props.week).isoWeek()}</b>{!moment().isoWeekday(1).startOf('day').isSame(moment(this.props.week),'year')?', '+(moment(this.props.week).year()):null}</h2>))}
         <KitchenTeam 
           className={c({'is-current':isCurrent,'is-next':isNext})}
@@ -124,36 +131,119 @@ export const KitchenTeam = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData() {
     var data = {};
-    transformedTeam = Teams._transform(this.props.team);
+//    data.currentUser = Meteor.user();
+    let transformedTeam = Teams._transform(this.props.team);
     data.teammembers = transformedTeam.getMembers().fetch();
-    data.currentUser = Meteor.user();
+    if(transformedTeam.isCurrent())
+      console.log('getMeteorData');
+
+/*
+    data.teammembers = _.sortBy(data.teammembers,(member)=>{
+      if(this.props.team._id in data.currentUser.rankings)
+        return data.currentUser.rankings[this.props.team._id].indexOf(member._id)
+      else
+        return member.name;
+    });
+*/
     return data;
-  },
-  isMemberCurrentUser(member, currentUser) {
-    if (currentUser && currentUser.services && currentUser.services.google && currentUser.services.google.email) {
-      TeamMembers._transform(TeamMembers.findOne(member._id));
-      if (TeamMembers.findOne(member._id) && TeamMembers._transform(TeamMembers.findOne(member._id)).getUser() && this.data.currentUser._id == TeamMembers._transform(TeamMembers.findOne(member._id)).getUser()._id) {
-        return true;
-      }
-    }
   },
   renderTeamMembers() {
     if(!this.data.teammembers)
-      return
+      return null;
+
+//    if(transformedTeam.isCurrent())
+//      console.log('renderTeamMembers');
+
+    sortedTeammembers = _.sortBy(this.data.teammembers,(member)=>{
+      if(Meteor.user() && this.props.team._id in Meteor.user().rankings)
+        return Meteor.user().rankings[this.props.team._id].indexOf(member._id)
+      else
+        return member.name;
+    });
     
-    return this.data.teammembers.map((member) => {
-      return <KitchenTeamMember classNames={[ns(this,['Member']),(this.isMemberCurrentUser(member,this.data.currentUser)?' is-currentuser':'')]} key={member._id} member={member} />;
+    return sortedTeammembers.map((member) => {
+      return <KitchenTeamMember classNames={[ns(this,['Member']),(Meteor.user() && Meteor.user()._id == member.userId ?' is-currentuser':'')]} key={member._id} member={member} />;
     });
   },
   render() {
     return (
-      <ul className={this.props.className+' '+ns(this)}>
+      <ol className={this.props.className+' '+ns(this)}>
         {this.renderTeamMembers()}
         <li className={ns(this,['Filler'])}></li>
         <li className={ns(this,['Filler'])}></li>
         <li className={ns(this,['Filler'])}></li>
-      </ul>
+      </ol>
     );
+  },
+  componentDidMount: function () {
+    if(Meteor.isClient && Teams._transform(this.props.team).isCurrent()){
+      var container = ReactDOM.findDOMNode(this);
+      drake = dragula({
+        containers: [container],
+        mirrorContainer: container,
+        direction: 'horizontal',
+        moves: function (el, target, source, sibling) {
+          // Only allow dragging members
+          return el.classList.contains('c-kitchenteam-member')
+        },
+        accepts: function (el, target, source, sibling) {
+          // Only allow dropping next to members
+          return sibling.classList.contains('c-kitchenteam-member')||sibling.previousElementSibling.classList.contains('c-kitchenteam-member');
+        }
+      });
+      drake.on('drop',(el, target, source, sibling)=>{
+        let orderedArray = $(target).children().map(function(index, element){
+          if('teammemberId' in element.dataset && !element.classList.contains('gu-mirror'))
+            return element.dataset.teammemberId
+        }).toArray();
+
+        console.log(orderedArray);
+
+        console.log(this);
+        rankTeam.call({
+          teamId: this.props.team._id, 
+          rankedMemberIds: orderedArray
+        }, (error,result)=>{
+          if(error){
+            console.error(error);
+            MDSnackbars.show({
+              text: error.reason ? error.reason : error.message,
+              fullWidth: true,
+              animation: 'slideup'
+            });
+            return;
+          }
+          MDSnackbars.show({
+            text: "Order saved!",
+            fullWidth: true,
+            animation: 'slideup'
+          });
+          var li = $(target).children('.c-kitchenteam-member').detach();
+          var liFillers = $(target).children('.c-kitchenteam-filler').detach();
+          li.sort(function(elA,elB){
+            if(orderedArray.indexOf(elA.dataset.teammemberId)>orderedArray.indexOf(elB.dataset.teammemberId))
+              return 1;
+            if(orderedArray.indexOf(elA.dataset.teammemberId)<orderedArray.indexOf(elB.dataset.teammemberId))
+              return -1;
+            return 0;
+          });
+          $(target).append(li);
+          $(target).append(liFillers);
+        });
+          var li = $(target).children('.c-kitchenteam-member').detach();
+          var liFillers = $(target).children('.c-kitchenteam-filler').detach();
+          li.sort(function(elA,elB){
+            if(orderedArray.indexOf(elA.dataset.teammemberId)>orderedArray.indexOf(elB.dataset.teammemberId))
+              return 1;
+            if(orderedArray.indexOf(elA.dataset.teammemberId)<orderedArray.indexOf(elB.dataset.teammemberId))
+              return -1;
+            return 0;
+          });
+          $(target).append(li);
+          $(target).append(liFillers);
+
+      })
+    }
   }
 });
 export const KitchenTeamMember = (props)=>{
@@ -168,7 +258,7 @@ export const KitchenTeamMember = (props)=>{
     backgroundImage: 'url(' + imgUrl + ')'
   }
   return (
-    <li className={props.classNames.join(' ')}>
+    <li className={props.classNames.join(' ')} data-teammember-id={props.member._id}>
       <div className={props.classNames[0]+'-picture'} style={style}></div>
       <div className={props.classNames[0]+'-name'}>{props.member.name}</div>
     </li>

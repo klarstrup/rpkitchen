@@ -19,6 +19,9 @@ Teams.helpers({
   isMyTeam: function () {
   	return !!TeamMembers.findOne({ teamId: this.id, userId: Meteor.userId() });
   },
+  recalculateOrder: function () {
+    
+  },
   recalculateRating: function () {
   	var ratings = [];
   	this.getMembers().map(function(member){
@@ -28,9 +31,15 @@ Teams.helpers({
 	  		ratings.push(user.ratings[member._id]);
 	  	})
   	});
+    console.log(ratings);
 
-  	var rating = _.reduce(ratings, function(memo, num){ return memo + parseInt(num); }, 0);
-
+  	let rating = _.reduce(ratings, function(memo, num){ return memo + parseInt(num); }, 0);
+    /*
+    let rating = _.reduce(ratings, function(memo, num) {
+        return memo + parseInt(num);
+    }, 0) / (ratings.length === 0 ? 1 : ratings.length);
+    */
+    console.log(rating);
   	Teams.update(this._id,{$set:{'rating':rating}});
   },
   getMyRating: function () { 	
