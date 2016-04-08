@@ -17,6 +17,8 @@ Teams.helpers({
     return this._id == WeekToKitchenTeam(moment().isoWeekday(8).startOf('day'))._id;
   },
   isMyTeam: function () {
+    if(!Meteor.user())
+      return false;
   	return !!TeamMembers.findOne({ teamId: this.id, userId: Meteor.userId() });
   },
   recalculateOrder: function () {

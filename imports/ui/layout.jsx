@@ -67,12 +67,12 @@ export default MainLayout = applyContainerQuery(React.createClass({
         </header>
         <main>
           <KitchenWeeks key="KitchenWeeks"/>
-          <aside>
+          {false?(<aside>
             <KitchenTeamLeaderboard key="KitchenTeamLeaderboard"/>
             <KitchenerLeaderboard key="KitchenTeamRankings"/>
-          </aside>
+          </aside>):null}
         </main>
-        <BottomNavigation/>
+        {false?<BottomNavigation/>:null}
       </div>
 		)
   }

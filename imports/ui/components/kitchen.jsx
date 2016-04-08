@@ -117,7 +117,7 @@ export const KitchenWeek = React.createClass({
     isNext = this.props.isNext;
     return (
       <li className={this.props.className+(isCurrent?' is-current':'')+(isNext?' is-next':'')}>
-        {(isCurrent&&this.data.currentUser&&!team.isMyTeam()?(<KitchenTeamRater team={this.data.team}/>):null)}
+        {(isCurrent&&!team.isMyTeam()?(<KitchenTeamRater team={this.data.team}/>):null)}
         {(isCurrent?(<h2>This Week</h2>):isNext?(<h2>Next Week</h2>):(<h2>Week&nbsp;<b>{moment(this.props.week).isoWeek()}</b>{!moment().isoWeekday(1).startOf('day').isSame(moment(this.props.week),'year')?', '+(moment(this.props.week).year()):null}</h2>))}
         <KitchenTeam 
           className={c({'is-current':isCurrent,'is-next':isNext})}
@@ -153,8 +153,10 @@ export const KitchenTeam = React.createClass({
 //      console.log('renderTeamMembers');
 
     sortedTeammembers = _.sortBy(this.data.teammembers,(member)=>{
-      if(Meteor.user() && this.props.team._id in Meteor.user().rankings)
-        return Meteor.user().rankings[this.props.team._id].indexOf(member._id)
+      if(Meteor.user() && 'rankings' in Meteor.user() && this.props.team._id in Meteor.user().rankings)
+        if(this.props.team._id in Meteor.user().rankings && Meteor.user().rankings[this.props.team._id].indexOf(member._id) > -1)
+          return Meteor.user().rankings[this.props.team._id].indexOf(member._id)
+        else return 999;
       else
         return member.name;
     });
@@ -216,6 +218,7 @@ export const KitchenTeam = React.createClass({
             fullWidth: true,
             animation: 'slideup'
           });
+          
           var li = $(target).children('.c-kitchenteam-member').detach();
           var liFillers = $(target).children('.c-kitchenteam-filler').detach();
           li.sort(function(elA,elB){
@@ -227,18 +230,21 @@ export const KitchenTeam = React.createClass({
           });
           $(target).append(li);
           $(target).append(liFillers);
+
+          return true;
         });
-          var li = $(target).children('.c-kitchenteam-member').detach();
-          var liFillers = $(target).children('.c-kitchenteam-filler').detach();
-          li.sort(function(elA,elB){
-            if(orderedArray.indexOf(elA.dataset.teammemberId)>orderedArray.indexOf(elB.dataset.teammemberId))
-              return 1;
-            if(orderedArray.indexOf(elA.dataset.teammemberId)<orderedArray.indexOf(elB.dataset.teammemberId))
-              return -1;
-            return 0;
-          });
-          $(target).append(li);
-          $(target).append(liFillers);
+
+        var li = $(target).children('.c-kitchenteam-member').detach();
+        var liFillers = $(target).children('.c-kitchenteam-filler').detach();
+        li.sort(function(elA,elB){
+          if(orderedArray.indexOf(elA.dataset.teammemberId)>orderedArray.indexOf(elB.dataset.teammemberId))
+            return 1;
+          if(orderedArray.indexOf(elA.dataset.teammemberId)<orderedArray.indexOf(elB.dataset.teammemberId))
+            return -1;
+          return 0;
+        });
+        $(target).append(li);
+        $(target).append(liFillers);
 
       })
     }
