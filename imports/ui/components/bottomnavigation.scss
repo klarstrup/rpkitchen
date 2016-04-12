@@ -1,0 +1,175 @@
+@import "{}/client/settings.scss";
+
+.c-bottomnavigation {
+  @media (max-width: 959px) {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    background: white;
+    height: 56px;
+    z-index: 80;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    ul {
+      flex: 1;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+
+      > li {
+        flex: 1;
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        max-width: 168px;
+        min-width: 96px;
+        transition: 200ms all ease-in-out;
+
+        a {
+          transition: 200ms all ease-in-out;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          text-decoration: none;
+          color: rgba(0, 0, 0, 0.5);
+          padding-top: 8px;
+          padding-bottom: 10px;
+          padding-left: 12px;
+          padding-right: 12px;
+          line-height: 0.8;
+          font-size: 12px;
+
+          > i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            font-size: 24px;
+          }
+        }
+
+        &.is-active {
+          max-width: 168px;
+          min-width: 96px;
+
+          a {
+            padding-top: 6px;
+            color: $color-appbar;
+            font-size: 14px;
+
+            i {}
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 959px) {
+  .md-snackbar {
+    bottom: 56px;
+    z-index: 60;
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1439px) {
+  .c-bottomnavigation {
+    align-self: flex-start;
+    position: relative;
+  }
+
+  .c-bottomnavigation ul {
+    position: fixed;
+    left: 4px;
+    top: 72px;
+    display: flex;
+    align-items: flex-end;
+    flex-flow: column nowrap;
+    width: calc( ( ( 100vw - 800px) / 2) - 16px);
+  }
+
+  .c-bottomnavigation ul > li {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 4px;
+    max-width: 180px;
+  }
+
+  .c-bottomnavigation ul > li > a {
+    text-decoration: none;
+    font-size: 14px;
+    padding: 2px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.87);
+
+    > i {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      font-size: 24px;
+    }
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1439px) and (min-width: 1024px) {
+  .c-bottomnavigation ul > li > a {
+    width: calc( ( ( 100vw - 800px) / 2) - 16px);
+    flex: 1;
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1439px) {
+  .c-bottomnavigation ul > li > a > * {
+    margin: 2px 4px;
+  }
+
+  .c-bottomnavigation ul > li > a > *:last-child {
+    margin-right: 0;
+  }
+
+  .c-bottomnavigation ul > li > a > i.fa {
+    -webkit-order: 2;
+    -ms-flex-order: 2;
+    order: 2;
+  }
+
+  .c-bottomnavigation ul > li > a > span {
+    display: none;
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1439px) and (min-width: 1024px) {
+  .c-bottomnavigation ul > li > a > span {
+    display: block;
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1439px) {
+  .c-bottomnavigation ul > li.is-active,
+  .c-bottomnavigation ul > li:active {
+    font-weight: 600;
+  }
+
+  .c-bottomnavigation ul > li.is-active a,
+  .c-bottomnavigation ul > li:active a {
+    color: rgba(255, 255, 255, 0.87);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .c-bottomnavigation {
+    display: none;
+  }
+}

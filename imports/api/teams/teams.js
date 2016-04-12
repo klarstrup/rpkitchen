@@ -11,6 +11,7 @@ Teams.helpers({
     return TeamMembers.find({ teamId: this.id },{sort: {'name': 1}});
   },
   isCurrent: function () {
+    console.log(this._id)
     return this._id == WeekToKitchenTeam(moment().isoWeekday(1).startOf('day'))._id;
   },
   isNext: function () {
@@ -21,8 +22,26 @@ Teams.helpers({
       return false;
   	return !!TeamMembers.findOne({ teamId: this.id, userId: Meteor.userId() });
   },
-  recalculateOrder: function () {
-    
+  recalculateScores: function () {
+    query = {}
+    query['rankings.'+this._id]={$exists:true};
+    projection = {fields:{}}
+    projection.fields['rankings.'+this._id] = true;
+//    Meteor.users.find(query,projection).fetch()
+
+    usersRankings = Meteor.users.find(query,projection).map((user)=>user.rankings[this._id]);
+
+    this.getMembers().forEach(function(member){
+      let memberScore =  _.reduce(usersRankings,(memo,userRanking)=>{
+        if(userRanking.indexOf(member._id)>-1)
+          return memo+(5-userRanking.indexOf(member._id));
+        else 
+          return memo;
+      },0);
+      TeamMembers.update(member._id,{$set:{score:memberScore}})
+    });
+
+    return usersRankings;
   },
   recalculateRating: function () {
   	var ratings = [];

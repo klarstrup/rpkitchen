@@ -1,0 +1,120 @@
+@import "{}/client/settings.scss";
+
+.c-kitchenteamleaderboard, .c-kitchenerleaderboard {
+  background: $color-card;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+
+  &-q {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.c-kitchenerleaderboard {
+  &-list {
+    padding-bottom: 8px;
+
+    display: flex;
+    flex-flow: row wrap;
+    counter-reset: kitchener-rank;
+    
+    &-entry {
+      padding: 0 16px; 
+      display: flex;
+    flex-flow: row wrap;
+      align-items: center;
+    width: 100%;
+    position: relative;
+      
+        line-height: 1.2;
+
+      &-picture {
+        width: 40px;
+        height: 40px;
+        height: auto;
+        margin-right: 16px;
+        border-radius: 50%;
+        padding: 8px 0;
+      }
+      > div {
+        flex: 1;
+        padding: 8px 0;
+      }
+      &-name {
+        font-size: 16px;
+      }
+      &-team {
+        color: $color-caption;
+        font-size: 14px;
+        display: block;
+      }
+      &-score {
+        color: $color-caption;
+        font-size: 12px;
+        float: right;
+        line-height: 2;
+      }
+      &:nth-of-type(1), &:nth-of-type(2),&:nth-of-type(3) {
+        width: 50%;
+        flex-flow: column nowrap;
+        align-items: stretch;
+        .c-kitchenerleaderboard-list-entry-picture {
+          margin-right: 0;
+          max-width: none;
+          width: 100%;
+          height: auto;
+          flex: 1;
+          margin-top: 8px;
+          padding-bottom: 0;
+        }
+
+        &::before {
+          position: absolute;
+          left: 12px;
+          top: 8px;
+          content: "#" counter(kitchener-rank);
+          counter-increment: kitchener-rank;
+          font-size: 16px;
+        }
+        &::after {
+          display: none;
+        }
+      }
+      &:nth-of-type(1) {
+        background: $color-appbar;
+        width: 100%;
+        &::before {
+          left: 16px;
+          font-size: 32px;
+        }
+      }
+      &:nth-of-type(2){
+        background: #395153;
+      }
+      &:nth-of-type(3){
+        background: #3E494A;
+      }
+      &:nth-of-type(4){
+        padding-top: 8px;
+      }
+
+      &::after{
+        display: block;
+        content: '';
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+        width: calc(100% - 72px);
+        position: absolute;
+        bottom: -1px;
+        right: 0;
+      }
+      &:last-child {
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+}

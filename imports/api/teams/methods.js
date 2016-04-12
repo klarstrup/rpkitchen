@@ -1,24 +1,9 @@
-import {
-	Meteor
-}
-from 'meteor/meteor';
-import {
-	ValidatedMethod
-}
-from 'meteor/mdg:validated-method';
-import {
-	SimpleSchema
-}
-from 'meteor/aldeed:simple-schema';
+import { Meteor } from 'meteor/meteor';
+import { ValidatedMethod } from 'meteor/mdg:validated-method';
+import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 
-import {
-	Teams
-}
-from '/imports/api/teams/teams.js';
-import {
-	WeekToKitchenTeam
-}
-from '/lib/functions.js';
+import { Teams } from '/imports/api/teams/teams.js';
+import { WeekToKitchenTeam } from '/lib/functions.js';
 
 export const rate = new ValidatedMethod({
 	name: 'team.rate',
@@ -91,6 +76,8 @@ export const rank = new ValidatedMethod({
 	run({
 		teamId, rankedMemberIds
 	}) {
+		if (Meteor.isSimulation)
+			return;
 		// Validate user
 		if (!Meteor.userId())
 			throw new Meteor.Error("logged-out", "You must be logged in to rank a team.");
@@ -122,7 +109,7 @@ export const rank = new ValidatedMethod({
 		})
 
 		if (Meteor.isServer)
-			team.recalculateOrder();
+			team.recalculateScores();
 
 		return;
 	}

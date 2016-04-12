@@ -115,12 +115,20 @@ export const KitchenWeek = React.createClass({
     team = Teams._transform(this.data.team);
     isCurrent = this.props.isCurrent;
     isNext = this.props.isNext;
+    teamSpan = (<span style={{fontWeight: 'normal'}}>&nbsp;-&nbsp;Team {this.data.team.id+1}</span>)
     return (
       <li className={this.props.className+(isCurrent?' is-current':'')+(isNext?' is-next':'')}>
         {(isCurrent&&!team.isMyTeam()?(<KitchenTeamRater team={this.data.team}/>):null)}
-        {(isCurrent?(<h2>This Week</h2>):isNext?(<h2>Next Week</h2>):(<h2>Week&nbsp;<b>{moment(this.props.week).isoWeek()}</b>{!moment().isoWeekday(1).startOf('day').isSame(moment(this.props.week),'year')?', '+(moment(this.props.week).year()):null}</h2>))}
+        {(isCurrent
+          ?(<h2>This Week{teamSpan}</h2>)
+          :isNext
+            ?(<h2>Next Week{teamSpan}</h2>)
+            :(<h2>Week&nbsp;<b>{moment(this.props.week).isoWeek()}</b>{!moment().isoWeekday(1).startOf('day').isSame(moment(this.props.week),'year')?', '+(moment(this.props.week).year()):null}{teamSpan}</h2>))}
+        
         <KitchenTeam 
           className={c({'is-current':isCurrent,'is-next':isNext})}
+          isCurrent={isCurrent}
+          isNext={isNext}
           team={this.data.team}
           />
       </li>
@@ -131,26 +139,14 @@ export const KitchenTeam = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData() {
     var data = {};
-//    data.currentUser = Meteor.user();
     let transformedTeam = Teams._transform(this.props.team);
     data.teammembers = transformedTeam.getMembers().fetch();
 
-/*
-    data.teammembers = _.sortBy(data.teammembers,(member)=>{
-      if(this.props.team._id in data.currentUser.rankings)
-        return data.currentUser.rankings[this.props.team._id].indexOf(member._id)
-      else
-        return member.name;
-    });
-*/
     return data;
   },
   renderTeamMembers() {
     if(!this.data.teammembers)
       return null;
-
-//    if(transformedTeam.isCurrent())
-//      console.log('renderTeamMembers');
 
     sortedTeammembers = _.sortBy(this.data.teammembers,(member)=>{
       if(Meteor.user() && 'rankings' in Meteor.user() && this.props.team._id in Meteor.user().rankings)
@@ -176,7 +172,7 @@ export const KitchenTeam = React.createClass({
     );
   },
   componentDidMount: function () {
-    if(Meteor.isClient && Teams._transform(this.props.team).isCurrent()){
+    if(Meteor.isClient && this.props.isCurrent){
       var container = ReactDOM.findDOMNode(this);
       drake = dragula({
         containers: [container],

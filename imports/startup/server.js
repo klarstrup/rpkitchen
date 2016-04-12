@@ -1,9 +1,13 @@
 import './server/fixtures.js';
 
-import '/imports/api/users/server/publications.js';
+
+import '/imports/api/teams/methods.js';
 import '/imports/api/teams/server/publications.js';
+
 import '/imports/api/teammembers/server/publications.js';
+
 import '/imports/api/users/users.js';
+import '/imports/api/users/server/publications.js';
 
 
 ServiceConfiguration.configurations.remove({

@@ -6,7 +6,6 @@ import c from 'classnames';
 import Blaze from 'meteor/gadicc:blaze-react-component';
 import { applyContainerQuery } from 'react-container-query';
 
-
 import MediaQuery from 'react-responsive';
 
 import { VelocityComponent, VelocityTransitionGroup } from 'velocity-react';
@@ -67,12 +66,12 @@ export default MainLayout = applyContainerQuery(React.createClass({
         </header>
         <main>
           <KitchenWeeks key="KitchenWeeks"/>
-          {false?(<aside>
-            <KitchenTeamLeaderboard key="KitchenTeamLeaderboard"/>
-            <KitchenerLeaderboard key="KitchenTeamRankings"/>
+          {true?(<aside>
+            <KitchenerLeaderboard/>
+            <KitchenTeamLeaderboard/>
           </aside>):null}
         </main>
-        {false?<BottomNavigation/>:null}
+        {true?<BottomNavigation/>:null}
       </div>
 		)
   }

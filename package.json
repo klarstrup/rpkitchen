@@ -42,6 +42,7 @@
     "react-dragula": "^1.1.15",
     "react-mounter": "^1.1.0",
     "react-responsive": "^1.1.1",
+    "react-tap-event-plugin": "^0.2.2",
     "react-toolbox": "^0.15.0",
     "velocity-react": "^1.1.4"
   },
