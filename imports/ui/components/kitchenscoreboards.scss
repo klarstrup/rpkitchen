@@ -85,6 +85,7 @@
       }
       &:nth-of-type(1) {
         background: $color-appbar;
+//        background: #68475A;
         width: 100%;
         &::before {
           left: 16px;
@@ -93,9 +94,11 @@
       }
       &:nth-of-type(2){
         background: #395153;
+//        background: #5B4552;
       }
       &:nth-of-type(3){
         background: #3E494A;
+//        background: #4F444A;
       }
       &:nth-of-type(4){
         padding-top: 8px;

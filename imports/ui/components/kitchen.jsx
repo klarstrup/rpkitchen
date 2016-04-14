@@ -184,7 +184,9 @@ export const KitchenTeam = React.createClass({
         },
         accepts: function (el, target, source, sibling) {
           // Only allow dropping next to members
-          return sibling.classList.contains('c-kitchenteam-member')||sibling.previousElementSibling.classList.contains('c-kitchenteam-member');
+          if(sibling)
+            return sibling.classList.contains('c-kitchenteam-member')||sibling.previousElementSibling.classList.contains('c-kitchenteam-member');
+          else true;
         }
       });
       drake.on('drop',(el, target, source, sibling)=>{
@@ -193,9 +195,6 @@ export const KitchenTeam = React.createClass({
             return element.dataset.teammemberId
         }).toArray();
 
-        console.log(orderedArray);
-
-        console.log(this);
         rankTeam.call({
           teamId: this.props.team._id, 
           rankedMemberIds: orderedArray
@@ -210,7 +209,7 @@ export const KitchenTeam = React.createClass({
             return;
           }
           MDSnackbars.show({
-            text: "Order saved!",
+            text: "Ranking saved!",
             fullWidth: true,
             animation: 'slideup'
           });

@@ -329,7 +329,8 @@ a {
 
     &.is-current {
       margin-bottom: 1%;
-
+//      background: #8E8445;
+//      background: #374A68;
       @media (min-width: 800px) {
         border-radius: 2px;
       }
@@ -404,8 +405,7 @@ a {
       left: 0px;
       right: 1px;
       min-height: 48px;
-      line-height: 48px;
-      padding: 0 16px;
+      padding: 4px 16px;
       display: flex;
       align-items: center;
       font-weight: 500;
@@ -505,6 +505,7 @@ footer {
 }
 
 .md-snackbar {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
   @media (min-width: 800px) {
     min-width: 288px;
     max-width: 568px;

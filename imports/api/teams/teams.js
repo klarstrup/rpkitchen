@@ -11,7 +11,6 @@ Teams.helpers({
     return TeamMembers.find({ teamId: this.id },{sort: {'name': 1}});
   },
   isCurrent: function () {
-    console.log(this._id)
     return this._id == WeekToKitchenTeam(moment().isoWeekday(1).startOf('day'))._id;
   },
   isNext: function () {
