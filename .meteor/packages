@@ -22,7 +22,6 @@ service-configuration
 mdg:validated-method
 aldeed:simple-schema
 fourseven:scss
-juliancwirko:postcss
 matteodem:server-session
 meteorhacks:subs-manager
 blaze
@@ -39,3 +38,4 @@ meteorhacks:kadira
 session
 okgrow:router-autoscroll
 ultimatejs:tracker-react
+seba:minifiers-autoprefixer
