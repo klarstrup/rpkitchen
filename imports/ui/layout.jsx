@@ -49,8 +49,8 @@ const mdBreakpoints = (function(breakpoints) {
 export default MainLayout = applyContainerQuery(React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData() {
-//    SubsManager.subscribe('publicUserData');
-//    SubsManager.subscribe('ownUserData');
+    SubsManager.subscribe('publicUserData');
+    SubsManager.subscribe('ownUserData');
     SubsManager.subscribe('teams');
     SubsManager.subscribe('teamMembers');
     return {
