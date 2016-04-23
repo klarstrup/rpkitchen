@@ -10,9 +10,13 @@ import MediaQuery from 'react-responsive';
 
 import { VelocityComponent, VelocityTransitionGroup } from 'velocity-react';
 
-import BottomNavigation from '/imports/ui/components/bottomnavigation';
-import { KitchenWeeks, CurrentAccount } from '/imports/ui/components/kitchen';
-import { KitchenTeamLeaderboard, KitchenerLeaderboard } from '/imports/ui/components/kitchenscoreboards';
+import BottomNavigation from '/imports/ui/components/bottomnavigation.jsx';
+import BottomNavigationCSS from '/imports/ui/components/bottomnavigation';
+import { KitchenWeeks, CurrentAccount } from '/imports/ui/components/kitchen.jsx';
+import { KitchenTeamLeaderboard, KitchenerLeaderboard } from '/imports/ui/components/kitchenscoreboards.jsx';
+
+console.log(BottomNavigationCSS);
+console.log(JSON.stringify(BottomNavigationCSS));
 
 if(Meteor.isServer)
   Session = ServerSession;
@@ -45,8 +49,8 @@ const mdBreakpoints = (function(breakpoints) {
 export default MainLayout = applyContainerQuery(React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData() {
-    SubsManager.subscribe('publicUserData');
-    SubsManager.subscribe('ownUserData');
+//    SubsManager.subscribe('publicUserData');
+//    SubsManager.subscribe('ownUserData');
     SubsManager.subscribe('teams');
     SubsManager.subscribe('teamMembers');
     return {

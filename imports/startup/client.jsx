@@ -42,7 +42,11 @@ FlowRouter.route('/', {
   name: 'schedule',
   action() {
     return mount(MainLayout, { content: () => (<KitchenWeeks />) });
-  }
+  },
+  triggersEnter: [function(context, redirect) {
+    const user = Meteor.users.findOne({_id: Meteor.userId()})
+    console.log(user) // undefined
+  }]
 });
 FlowRouter.route('/teams', {
   name: 'teams',

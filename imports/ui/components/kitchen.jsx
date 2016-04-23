@@ -101,7 +101,7 @@ export const KitchenWeeks = React.createClass({
 });
 
 
-import { KitchenTeamRater } from '/imports/ui/components/kitchenteamrater';
+import { KitchenTeamRater } from '/imports/ui/components/kitchenteamrater.jsx';
 
 export const KitchenWeek = React.createClass({
   mixins: [ReactMeteorData],
