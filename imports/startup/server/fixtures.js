@@ -47,6 +47,11 @@ if (!TeamMembers.findOne()) {
 		teamId: 0,
 		email: "jdp@rebelpenguin.dk"
 	});
+	TeamMembers.insert({ 
+		name: "Azita", 
+		teamId: 0, 
+		email: "azk@rebelpenguin.dk" 
+	});
 
 
 	TeamMembers.insert({
